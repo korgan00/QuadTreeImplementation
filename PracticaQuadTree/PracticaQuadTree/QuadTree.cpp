@@ -61,9 +61,9 @@ Circle* QuadTree::RayCast(const Point& ray) const {
 
 
 void QuadTree::_AddToChildren(Circle* circle) {
-	Point relativeP = (circle->center() - _position) - _halfLength;
-	Point absRelP(abs(relativeP.x()), abs(relativeP.y()));
-	bool quadsSelected[4] = { false, false, false, false };
+    Point relativeP = (circle->center() - _position) - _halfLength;
+    Point absRelP(abs(relativeP.x()), abs(relativeP.y()));
+    bool quadsSelected[4] = { false, false, false, false };
 
 
     int childIdxX = (relativeP.x() >= 0 ? 1 : 0);
@@ -71,21 +71,21 @@ void QuadTree::_AddToChildren(Circle* circle) {
     int childOppIdxX = (relativeP.x() >= 0 ? 0 : 1);
     int childOppIdxY = (relativeP.y() >= 0 ? 0 : 2);
 
-	quadsSelected[childIdxY + childIdxX] = true;
+    quadsSelected[childIdxY + childIdxX] = true;
 
     if (absRelP.x() < CIRCLES_RADIUS) {
         quadsSelected[childOppIdxX + childIdxY] = true;
     }
-	if (absRelP.y() < CIRCLES_RADIUS) {
-		quadsSelected[childIdxX + childOppIdxY] = true;
-	}
+    if (absRelP.y() < CIRCLES_RADIUS) {
+        quadsSelected[childIdxX + childOppIdxY] = true;
+    }
     if (relativeP.sqrDist(Point(0, 0)) < SQUARED_RADIUS) {
         quadsSelected[childOppIdxX + childOppIdxY] = true;
     }
 
-	for (int i = 0; i < 4; ++i) {
-		if (quadsSelected[i]) _children[i].AddCircle(circle);
-	}
+    for (int i = 0; i < 4; ++i) {
+        if (quadsSelected[i]) _children[i].AddCircle(circle);
+    }
 }
 
 void QuadTree::_CreateChildren() {
