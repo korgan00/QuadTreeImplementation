@@ -1,5 +1,5 @@
 #pragma once
-#include "circle.h"
+#include "Circle.h"
 #include <list>
 #include <memory>
 #include <functional>
@@ -21,7 +21,6 @@ private:
 
 	list<Circle*> _elements;
     unique_ptr<QuadTree[]> _children;
-	//QuadTree* _children;
 
 	void _AddToChildren(Circle*);
 	void _CreateChildren();

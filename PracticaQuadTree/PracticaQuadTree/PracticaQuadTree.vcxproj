@@ -116,12 +116,12 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="circle.cpp" />
+    <ClCompile Include="Circle.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="QuadTree.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="circle.h" />
+    <ClInclude Include="Circle.h" />
     <ClInclude Include="Point.h" />
     <ClInclude Include="QuadTree.h" />
   </ItemGroup>

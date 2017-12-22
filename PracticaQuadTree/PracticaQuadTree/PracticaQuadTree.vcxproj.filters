@@ -15,24 +15,24 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="circle.cpp">
-      <Filter>Archivos de recursos</Filter>
-    </ClCompile>
     <ClCompile Include="main.cpp">
       <Filter>Archivos de recursos</Filter>
     </ClCompile>
     <ClCompile Include="QuadTree.cpp">
       <Filter>Archivos de recursos</Filter>
     </ClCompile>
+    <ClCompile Include="Circle.cpp">
+      <Filter>Archivos de recursos</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="circle.h">
-      <Filter>Archivos de origen</Filter>
-    </ClInclude>
     <ClInclude Include="Point.h">
       <Filter>Archivos de origen</Filter>
     </ClInclude>
     <ClInclude Include="QuadTree.h">
+      <Filter>Archivos de origen</Filter>
+    </ClInclude>
+    <ClInclude Include="Circle.h">
       <Filter>Archivos de origen</Filter>
     </ClInclude>
   </ItemGroup>

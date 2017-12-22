@@ -1,10 +1,10 @@
-#include "circle.h"
+#include "Circle.h"
 
 
 Circle::Circle()
 {
 }
-Circle::Circle(Point c, string n, int col[]) : _center(c), _name(n) {
+Circle::Circle(Point c, string n, int col[], int z) : _center(c), _name(n), _z(z) {
     _color[0] = col[0];
     _color[1] = col[1];
     _color[2] = col[2];
@@ -24,11 +24,9 @@ int* Circle::color() {
 string Circle::name() const {
     return _name;
 }
-/* is bad implementation
-bool Circle::IsColliding(Circle c) {
-	return _center.squaredDist(c.center()) < SQUARED_TAM;
+int Circle::z() const {
+    return _z;
 }
-*/
 bool Circle::IsColliding(const Point& c) const {
 	return _center.sqrDist(c) < SQUARED_RADIUS;
 }

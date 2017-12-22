@@ -28,10 +28,10 @@ void AddRandomCircles(QuadTree& q, int num) {
     for (int i = 0; i < num; i++) {
         Point p = RandomPoint();
         stringstream ss;
-        ss << "C#" << order++ << "   [" << p.x() << " , " << p.y() << "]";
+        ss << "C# z:" << order++ << "   [" << p.x() << " , " << p.y() << "]";
         int col[] = { 0, (75 + (rand() % 150)), 0 };
 
-        q.AddCircle(new Circle(p, ss.str(), col));
+        q.AddCircle(new Circle(p, ss.str(), col, order));
     }
 }
 
