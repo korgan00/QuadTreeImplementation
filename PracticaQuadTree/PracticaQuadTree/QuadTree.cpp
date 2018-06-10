@@ -47,14 +47,14 @@ Circle* QuadTree::RayCast(const Point& ray) const {
 		int childIdx = _PointToChildIdx(ray);
 
 		return _children[childIdx].RayCast(ray);
-	} 
+	}
 
 	// ELSE
-	for (auto it = _elements.begin(); it != _elements.end(); ++it) {
-		if ((*it)->IsColliding(ray)) {
-			return *it;
-		}
-	}
+    for (auto it = _elements.begin(); it != _elements.end(); ++it) {
+        if ((*it)->IsColliding(ray)) {
+            return *it;
+        }
+    }
 
     return nullptr;
 }

@@ -3,8 +3,11 @@
 #include <allegro5/allegro_primitives.h>
 #include <iostream>
 #include <sstream>
+#include <stdlib.h>
+#include <stdio.h>
 #include <chrono> 
 #include "QuadTree.h"
+#include "omp.h"
 using namespace std;
 
 
@@ -24,7 +27,7 @@ Point RandomPoint() {
 
 void AddRandomCircles(QuadTree& q, int num) {
     static int order = 0;
-
+    
     for (int i = 0; i < num; i++) {
         Point p = RandomPoint();
         stringstream ss;
@@ -133,8 +136,10 @@ int main() {
         al_draw_text(font, al_map_rgb(255, 255, 255), 1020, textPos += 20, ALLEGRO_ALIGN_LEFT, "D - Dibujado on/off");
         al_draw_text(font, al_map_rgb(255, 255, 255), 1020, textPos += 20, ALLEGRO_ALIGN_LEFT, "G - Grid on/off");
         al_draw_text(font, al_map_rgb(255, 255, 255), 1020, textPos += 20, ALLEGRO_ALIGN_LEFT, "R - Lanzar rayo aleatorio");
-        al_draw_text(font, al_map_rgb(255, 255, 255), 1020, textPos += 20, ALLEGRO_ALIGN_LEFT, "T - Lanzar 1k rayos aleatorios");
-        al_draw_text(font, al_map_rgb(255, 255, 255), 1020, textPos += 20, ALLEGRO_ALIGN_LEFT, "Y - Lanzar 1M rayos aleatorios");
+        al_draw_text(font, al_map_rgb(255, 255, 255), 1020, textPos += 20, ALLEGRO_ALIGN_LEFT, "T - Lanzar 1M rayos en serie");
+        al_draw_text(font, al_map_rgb(255, 255, 255), 1020, textPos += 20, ALLEGRO_ALIGN_LEFT, "Y - Lanzar 1M rayos en paralelo 1x1M");
+        al_draw_text(font, al_map_rgb(255, 255, 255), 1020, textPos += 20, ALLEGRO_ALIGN_LEFT, "U - Lanzar 1M rayos en paralelo 4x250k");
+        al_draw_text(font, al_map_rgb(255, 255, 255), 1020, textPos += 20, ALLEGRO_ALIGN_LEFT, "I - Lanzar 1M rayos en paralelo 8x125k");
         al_draw_text(font, al_map_rgb(255, 255, 255), 1020, textPos += 20, ALLEGRO_ALIGN_LEFT, "1 - Anade 1 bola");
         al_draw_text(font, al_map_rgb(255, 255, 255), 1020, textPos += 20, ALLEGRO_ALIGN_LEFT, "2 - Anade 10 bolas");
         al_draw_text(font, al_map_rgb(255, 255, 255), 1020, textPos += 20, ALLEGRO_ALIGN_LEFT, "3 - Anade 100 bolas");
@@ -207,7 +212,8 @@ int main() {
                 break;
                 case ALLEGRO_KEY_T:
                     start = std::chrono::high_resolution_clock::now();
-                    for(int i = 0; i < 1000; ++i) {
+                    //#pragma omp parallel for
+                    for(int i = 0; i < 1000000; ++i) {
                         rayCast = RandomPoint();
                         raycastedCircle = q.RayCast(rayCast);
                     }
@@ -217,9 +223,39 @@ int main() {
                 break;
                 case ALLEGRO_KEY_Y:
                     start = std::chrono::high_resolution_clock::now();
+
+                    #pragma omp parallel for private(rayCast, raycastedCircle, q) 
                     for (int i = 0; i < 1000000; ++i) {
                         rayCast = RandomPoint();
                         raycastedCircle = q.RayCast(rayCast);
+                    }
+                    elapsed = std::chrono::high_resolution_clock::now() - start;
+
+                    microseconds = std::chrono::duration_cast<std::chrono::microseconds>(elapsed).count();
+                 break;
+                case ALLEGRO_KEY_U:
+                    start = std::chrono::high_resolution_clock::now();
+
+                    #pragma omp parallel for private(rayCast, raycastedCircle, q) 
+                    for (int i = 0; i < 4; ++i) {
+                        for (int j = 0; j < 250000; ++j) {
+                            rayCast = RandomPoint();
+                            raycastedCircle = q.RayCast(rayCast);
+                        }
+                    }
+                    elapsed = std::chrono::high_resolution_clock::now() - start;
+
+                    microseconds = std::chrono::duration_cast<std::chrono::microseconds>(elapsed).count();
+                break;
+                case ALLEGRO_KEY_I:
+                    start = std::chrono::high_resolution_clock::now();
+
+                    #pragma omp parallel for private(rayCast, raycastedCircle, q) 
+                    for (int i = 0; i < 8; ++i) {
+                        for (int j = 0; j < 125000; ++j) {
+                            rayCast = RandomPoint();
+                            raycastedCircle = q.RayCast(rayCast);
+                        }
                     }
                     elapsed = std::chrono::high_resolution_clock::now() - start;
 
